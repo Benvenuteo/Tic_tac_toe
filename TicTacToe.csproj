@@ -46,16 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="AI\AlphaBetaEvaluator.cs" />
+    <Compile Include="AI\EvaluatorFactory.cs" />
+    <Compile Include="AI\HeuristicEvaluator.cs" />
+    <Compile Include="AI\IEvaluator.cs" />
+    <Compile Include="AI\MinimaxEvaluator.cs" />
+    <Compile Include="AI\RandomEvaluator.cs" />
+    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Display\FormDisplayManager.cs" />
+    <Compile Include="Display\IDisplayManager.cs" />
+    <Compile Include="Controllers\IGameContoller.cs" />
+    <Compile Include="Game\IGameLogic.cs" />
+    <Compile Include="Game\IGameState.cs" />
+    <Compile Include="Game\TicTacToeLogic.cs" />
+    <Compile Include="Game\TicTacToeState.cs" />
+    <Compile Include="Players\AiPlayer.cs" />
+    <Compile Include="Players\HumanPlayer.cs" />
+    <Compile Include="Players\IPlayer.cs" />
+    <Compile Include="Scoring\IScoreManager.cs" />
+    <Compile Include="Scoring\ScoreManager.cs" />
+    <Compile Include="TicTacToeBoard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="TicTacToeBoard.Designer.cs">
+      <DependentUpon>TicTacToeBoard.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="TicTacToeBoard.resx">
+      <DependentUpon>TicTacToeBoard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -79,5 +98,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

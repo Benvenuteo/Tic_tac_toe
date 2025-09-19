@@ -9,3 +9,13 @@ C:\Users\krzys\OneDrive\Pulpit\Studia_lic_IiE\III_sem_IiE\ProgramowanieObiektowe
 C:\Users\krzys\OneDrive\Pulpit\Studia_lic_IiE\III_sem_IiE\ProgramowanieObiektowe\ProjektyWłasne\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csproj.CoreCompileInputs.cache
 C:\Users\krzys\OneDrive\Pulpit\Studia_lic_IiE\III_sem_IiE\ProgramowanieObiektowe\ProjektyWłasne\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 C:\Users\krzys\OneDrive\Pulpit\Studia_lic_IiE\III_sem_IiE\ProgramowanieObiektowe\ProjektyWłasne\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\bin\Debug\TicTacToe.exe.config
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\bin\Debug\TicTacToe.exe
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\bin\Debug\TicTacToe.pdb
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.csproj.AssemblyReference.cache
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.Properties.Resources.resources
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.csproj.GenerateResource.cache
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.csproj.CoreCompileInputs.cache
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.exe
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.pdb
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.TicTacToeBoard.resources
