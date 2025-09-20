@@ -11,5 +11,6 @@ namespace TicTacToe.Display
         void UpdateTurnIndicator(int currentPlayer);
         void DisableButtons();
         void EnableButtons();
+        void ClearBoard();
     }
 }

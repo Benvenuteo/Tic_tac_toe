@@ -74,10 +74,21 @@ namespace TicTacToe
 
         private void HandleBoardButtonClick(int position)
         {
-            if (_gameController.GameState.IsGameOver)
+            if (_gameController == null)
                 return;
 
+            if (_gameController.IsGameOver)
+                return;
+
+            if (_gameButtons != null && position >= 0 && position < _gameButtons.Length)
+            {
+                Button button = _gameButtons[position];
+                if (button == null || !button.Enabled)
+                    return;
+            }
+
             _gameController.MakeMove(position);
+
             UpdateUIAfterMove();
         }
 

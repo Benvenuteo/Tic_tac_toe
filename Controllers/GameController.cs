@@ -19,10 +19,15 @@ namespace TicTacToe.Controllers
         private IPlayer _player1;
         private IPlayer _player2;
         private bool _isVsComputer = false;
-        private System.Windows.Forms.Timer _aiTimer;
+
+        private bool _isRestarting = false;
+        private System.Windows.Forms.Timer _restartTimer;
 
         public IReadOnlyList<IPlayer> Players => new[] { _player1, _player2 };
         public IGameState GameState => _gameState;
+        public bool IsGameOver => _gameState.IsGameOver || _isRestarting;
+        public IPlayer CurrentPlayer => _gameState.CurrentPlayer == TicTacToeState.PLAYER_X ? _player1 : _player2;
+
 
         public GameController(IGameState gameState, IGameLogic gameLogic,
             IScoreManager scoreManager, IDisplayManager displayManager)
@@ -43,36 +48,47 @@ namespace TicTacToe.Controllers
 
         public void StartNewGame()
         {
+            _isRestarting = false;
+            StopRestartTimer();
+
+            // Reset stanu gry
             _gameState.ResetBoard();
-            _displayManager.EnableButtons();
+
+            // Czyszczenie UI
+            _displayManager.ClearBoard();
+
+            // Aktualizacja UI
             _displayManager.UpdateTurnIndicator(_gameState.CurrentPlayer);
             _displayManager.UpdateBoard(_gameState);
+
         }
+
 
         public void MakeMove(int position)
         {
-            // Sprawdź czy gra się nie zakończyła
-            if (_gameLogic.IsGameOver(_gameState))
+            if (_isRestarting)
                 return;
 
-            // Sprawdź czy pozycja jest prawidłowa
+            if (_gameState.IsGameOver)
+                return;
+
             if (!_gameState.IsValidMove(position))
                 return;
 
-            // Wykonaj ruch aktualnego gracza
             if (_gameState.MakeMove(position, _gameState.CurrentPlayer))
             {
-                // Obsłuż wynik ruchu
                 HandleMoveResult(position);
             }
         }
 
         private void HandleMoveResult(int position)
         {
-            // Aktualizacja UI
+            if (_isRestarting)
+                return;
+
+
             _displayManager.UpdateBoard(_gameState);
 
-            // Sprawdź czy gra się zakończyła
             int winner = _gameLogic.CheckWinner(_gameState);
             if (winner != TicTacToeState.ONGOING)
             {
@@ -80,38 +96,26 @@ namespace TicTacToe.Controllers
                 return;
             }
 
-            // Zmiana gracza
             _gameState.CurrentPlayer = -_gameState.CurrentPlayer;
-
-            // Aktualizacja wskaźnika tury
             _displayManager.UpdateTurnIndicator(_gameState.CurrentPlayer);
 
-            // Automatyczny ruch AI (tylko jeśli to tura gracza O i gramy z komputerem)
             if (_isVsComputer && _gameState.CurrentPlayer == TicTacToeState.PLAYER_O)
             {
-                if (_aiTimer != null)
+                System.Windows.Forms.Timer aiTimer = new System.Windows.Forms.Timer();
+                aiTimer.Interval = 200;
+                aiTimer.Tick += (sender, e) =>
                 {
-                    _aiTimer.Stop();
-                    _aiTimer.Dispose();
-                    _aiTimer = null;
-                }
-
-                _aiTimer = new System.Windows.Forms.Timer();
-                _aiTimer.Interval = 100;
-                _aiTimer.Tick += (sender, e) =>
-                {
-                    _aiTimer.Stop();
-                    _aiTimer.Dispose();
-                    _aiTimer = null;
+                    aiTimer.Stop();
+                    aiTimer.Dispose();
                     MakeAiMove();
                 };
-                _aiTimer.Start();
+                aiTimer.Start();
             }
         }
 
         private void MakeAiMove()
         {
-            if (!_isVsComputer || _gameLogic.IsGameOver(_gameState))
+            if (_isRestarting || _gameState.IsGameOver || !_isVsComputer)
                 return;
 
             int aiMove = _player2.GetMove(_gameState);
@@ -124,6 +128,7 @@ namespace TicTacToe.Controllers
 
         private void HandleGameEnd(int winner)
         {
+            _isRestarting = true;
             _gameState.IsGameOver = true;
             _displayManager.DisableButtons();
 
@@ -151,42 +156,63 @@ namespace TicTacToe.Controllers
                     break;
 
                 default:
+                    // Błąd - wznów grę
+                    _isRestarting = false;
+                    _gameState.IsGameOver = false;
+                    _displayManager.EnableButtons();
                     return;
             }
 
             _displayManager.ShowMessage(message, title, icon);
 
-            if (_aiTimer != null)
+            System.Windows.Forms.Timer restartTimer = new System.Windows.Forms.Timer();
+            restartTimer.Interval = 100;
+            restartTimer.Tick += (sender, e) =>
             {
-                _aiTimer.Stop();
-                _aiTimer.Dispose();
-                _aiTimer = null;
-            }
+                restartTimer.Stop();
+                restartTimer.Dispose();
 
-            StartNewRound();
+                // WZNÓW GRĘ
+                _isRestarting = false;
+                _gameState.IsGameOver = false;
 
+                StartNewRound();
+            };
+            restartTimer.Start();
         }
 
         private void StartNewRound()
         {
-            // Reset stanu gry
-            if (_aiTimer != null)
-            {
-                _aiTimer.Stop();
-                _aiTimer.Dispose();
-                _aiTimer = null;
-            }
             _gameState.ResetBoard();
-            _gameState.CurrentPlayer = TicTacToeState.PLAYER_X; // Zawsze X zaczyna
 
-            // Włącz przyciski i zaktualizuj UI
-            _displayManager.EnableButtons();
+            // Czyszczenie i włączenie
+            _displayManager.ClearBoard();
+
+            // UI
             _displayManager.UpdateTurnIndicator(_gameState.CurrentPlayer);
             _displayManager.UpdateBoard(_gameState);
+
+        }
+
+        /// <summary>
+        /// Zatrzymanie timera restartu
+        /// </summary>
+        private void StopRestartTimer()
+        {
+            if (_restartTimer != null)
+            {
+                _restartTimer.Stop();
+                _restartTimer.Dispose();
+                _restartTimer = null;
+            }
         }
 
         public void SwitchMode(bool vsComputer, DifficultyLevel? difficulty = null)
         {
+            // Zresetuj flagi
+            _isRestarting = false;
+            StopRestartTimer();
+
             _isVsComputer = vsComputer;
 
             if (vsComputer)
@@ -199,12 +225,16 @@ namespace TicTacToe.Controllers
                 _player2 = new HumanPlayer(TicTacToeState.PLAYER_O, "Gracz O", _displayManager, null);
             }
 
+            // Nowa gra
+            _gameState.IsGameOver = false;
             StartNewRound();
         }
 
-
         public void SetPlayer2(IPlayer player)
         {
+            _isRestarting = false;
+            StopRestartTimer();
+
             if (player == null)
                 throw new ArgumentNullException(nameof(player));
 
@@ -214,9 +244,13 @@ namespace TicTacToe.Controllers
 
         public void RestartGame()
         {
+            _isRestarting = false;
+            StopRestartTimer();
+            _gameState.IsGameOver = false;
+
             _scoreManager.ResetScores();
             _displayManager.UpdateScore(0, 0);
-            StartNewRound();
+            StartNewGame();
         }
     }
 }

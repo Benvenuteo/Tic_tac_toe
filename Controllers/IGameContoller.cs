@@ -27,5 +27,6 @@ namespace TicTacToe.Controllers
 
         IReadOnlyList<IPlayer> Players { get; }
         IGameState GameState { get; }
+        bool IsGameOver { get; }
     }
 }

@@ -19,3 +19,4 @@ C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.csproj.CoreCompileInpu
 C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.exe
 C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.pdb
 C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.TicTacToeBoard.resources
+C:\ProjektyGitHub\TicTacToe_AlphaBeta\obj\Debug\TicTacToe.exe.config

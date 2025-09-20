@@ -77,5 +77,19 @@ namespace TicTacToe.Display
                 button.Enabled = true;
             }
         }
+
+        public void ClearBoard()
+        {
+            if (_buttons == null || _buttons.Length != 9) return;
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (_buttons[i] != null)
+                {
+                    _buttons[i].Enabled = true;
+                    _buttons[i].Text = "";
+                }
+            }
+        }
     }
 }
