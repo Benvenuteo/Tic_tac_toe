@@ -1,5 +1,4 @@
 # Tic_tac_toe
-Tic tac toe game in C#. You can play with friend or with computer.
-Simple GUI was made in Windows Forms. 
-The game with the computer was based on four evaluators.
-Have fun ;)
+TicTacToe Game
+
+This project is a classic Tic-Tac-Toe game implemented in C# using Windows Forms. It supports both single-player mode against an AI and two-player mode for local multiplayer. The game features a modular architecture with separate components for game state, logic, display management, and scoring. Players can choose from multiple AI difficulty levels, including Easy, Medium, Hard, and Impossible. The user interface is intuitive, displaying the game board, player scores, and turn indicators. The codebase includes robust error handling to prevent issues like null references or invalid moves. The project is designed for extensibility, with interfaces for game logic and players to support future enhancements. Comprehensive console logging aids in debugging and tracking game flow. The game is fully functional and ready for further customization or feature additions.
